@@ -1,14 +1,17 @@
-from math import log2, ceil # ceil: Redondeo ascendente
+from math import log2, ceil, exp # ceil: Redondeo ascendente
 
 def f(x):
-    #return x**3+4*x**2-10
-    return x**5+3*x**2-5
+    return 3*x**2+exp(x)-2
+    #return x**3-52
+    #return x**5+3*x**2-5
 
 def biseccion(f, a, b, error, exact):
-    n = ceil(log2((b-a)/error)-1)     # Número de pasos
+    n = ceil(log2((b-a)/error)-1)     # Numero de pasos
     for i in range(n):
         x = (a+b)/2
-        if(abs(f(x))<exact):
+        print("Iteracion "+str(i+1)+": Valor de X"+str(i)+"="+str(x))
+        if abs(f(x))<exact:
+        #if abs(x-a)<exact:    # exact=Tolerancia
             return x
         elif(f(a)*f(x)<0):
             b=x
@@ -16,4 +19,6 @@ def biseccion(f, a, b, error, exact):
             a=x
     return x
 
-print(biseccion(f, -0.5, 1.5, 1e-8, 1e-7))
+x=biseccion(f, 0, 1, 1e-25, 1e-5)
+print("Raíz en x="+str(x))
+print("f(x)="+str(f(x)))
