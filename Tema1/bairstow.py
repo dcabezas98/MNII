@@ -1,26 +1,37 @@
-from sympy import poly, Poly, degree, Lambda, diff, symbols
+from sympy import poly, Poly, degree, N, sqrt
 from sympy.abc import x
 
-r, s = symbols('r s')
+def bairstow(f, r, s, k):
 
-def bairstow(f, r0, s0):
     n=degree(f,x)
-    b=[Lambda((r,s), 0), Lambda((r,s), 0)]
     
-    for i in range(n, -1, -1):
-        b.append(Lambda((r,s), f.nth(i)+r*b[n-i+1](r,s)+s*b[n-i](r,s))) # nth(i), coeficiente de grado i
+    for _ in range(k):
+   
+        b0, b1 = 0, 0
+        c0, c1, c2 = 0, 0, 0
+        for i in range(n, -1, -1):
+            b=f.nth(i)+r*b0+s*b1 # nth(i), coeficiente de grado i
+            b0, b1 = b, b0
+            c=b+r*c0+s*c1
+            c3, c2, c1, c0 = c2, c1, c0, c
         
-        """
-    b[0]=Lambda((r,s), b[0](r0,s0)+diff(b[0](r,s),r).subs([(r,r0),(s,s0)])*(r-r0)+diff(b[0](r,s),s).subs([(r,r0),(s,s0)])*(s-s0))
-    b[1]=Lambda((r,s), b[1](r0,s0)+diff(b[1](r,s),r).subs([(r,r0),(s,s0)])*(r-r0)+diff(b[1](r,s),s).subs([(r,r0),(s,s0)])*(s-s0))
-        """
-
-    c1=Lambda((r,s), 0)
-    c2=Lambda((r,s), 0)
-    for i in range(n, 0, -1):
-        c=Lambda((r,s), b[n-i]+r*c1(r,s)+s*c2(r,s))
-        c3, c2, c1 = c2, c1, c
+        D=c1*c3-c2**2
         
-    D=
+        r+=N((b1*c2-b0*c3)/D)
+        s+=N((c2*b0-c1*b1)/D)
 
-print(bairstow(poly(x**4+x**3/2+3*x**2/2+x-1),1,1))
+    return poly(x**2-r*x-s)
+
+f=poly(x**4+x**3/2+3*x**2/2+x-1)
+
+p=bairstow(f, 1, 1, 10)
+
+a=p.nth(2)
+b=p.nth(1)
+c=p.nth(0)
+
+x1=(-b+sqrt(b**2-4*a*c))/(2*a)
+x2=(-b-sqrt(b**2-4*a*c))/(2*a)
+
+print('X1='+str(x1), ' X2='+str(x2))
+print('f(X1)='+str(f(x1)), ' f(X2)='+str(f(x2)))
