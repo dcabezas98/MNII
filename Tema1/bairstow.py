@@ -33,5 +33,6 @@ c=p.nth(0)
 x1=(-b+sqrt(b**2-4*a*c))/(2*a)
 x2=(-b-sqrt(b**2-4*a*c))/(2*a)
 
+print(p)
 print('X1='+str(x1), ' X2='+str(x2))
 print('f(X1)='+str(f(x1)), ' f(X2)='+str(f(x2)))
