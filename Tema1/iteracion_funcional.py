@@ -1,4 +1,10 @@
-import math
+from math import log, exp, cos 
+
+def f(x):
+    return log(x**2+1)-exp(x/2)*cos(3*x)
+
+def g(x):
+    return x-0.1*f(x)
 
 # Ejercicio 11: convergencia cúbica
 """
@@ -15,6 +21,8 @@ def g2(x):
 def g(x):
     return alpha*g1(x)+beta*g2(x)
 """
+
+"""
 ###################################
 
 # Ejercicio 12:
@@ -26,6 +34,9 @@ def g2(x):
     return x-(x**2-5)/10
 
 ###################################
+"""
+
+
 
 def iteracion_funcional(g, x0, n, tol):
     x1=x0
@@ -37,7 +48,7 @@ def iteracion_funcional(g, x0, n, tol):
             return x1
     return x1
 
-y = iteracion_funcional(g1, 1.5, 200, 1e-15)
+y = iteracion_funcional(g, 0.3, 10, 0)
 
 print("Punto fijo en x="+str(y))
-print("g("+str(y)+")="+str(g1(y)))
+print("g("+str(y)+")="+str(g(y)))
