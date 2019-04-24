@@ -4,10 +4,15 @@ x = sp.symbols('x')
 sp.init_printing(use_unicode=True)
 
 #f=sp.Lambda(x, x*sp.cos(x)-x**2*sp.sin(x))
+#f=sp.Lambda(x, sp.exp(x)*sp.cos(x))
+f=sp.Lambda(x, sp.sqrt(x))
 
+
+"""
 def f(x):
     #return x*m.cos(x)-x**2*m.sin(x)
     return m.cos(x)
+"""
 
 
 def trapecio_compuesta(f, a, b, n):
@@ -42,9 +47,20 @@ def romberg(f, a, b, n):
         for k in range(j, n+1):
             R[k][j]=R[k][j-1]*(1+1/(4**j-1))-1/(4**j-1)*R[k-1][j-1]
 
-    return R[n][n]
-   
-    
-result = romberg(f, -1, 1, 6)
+    return R[n][n], R[n][0] 
 
+
+a, b = 0, 1
+n = 7
+
+"""
+result = romberg(f, a, b, n)
 print(result)
+"""
+
+# solution = romberg(f, a, b, 12)[0]
+solution = 2/3
+
+for k in range(n+1):
+    r = romberg(f, a, b, k)
+    print("R[{0}][0]={1}, error={3}\tR[{0}][{0}]={2}, error={4}".format(k, r[1], r[0], abs(r[1]-solution), abs(r[0]-solution)))

@@ -1,13 +1,17 @@
 import sympy as sp, math as m
 
-x = sp.symbols('x')
+x, y = sp.symbols('x y')
 sp.init_printing(use_unicode=True)
 
 #f=sp.Lambda(x, x*sp.cos(x)-x**2*sp.sin(x))
+f=sp.Lambda(x, x**4*sp.exp(-2*x**2))
 
+"""
 def f(x):
     #return x*m.cos(x)-x**2*m.sin(x)
-    return m.cos(x)
+    #return m.cos(x)
+    return x**4*m.exp(-2*x**2)
+"""
 
 def lagrange(nodes):
     
@@ -39,7 +43,38 @@ def n_c(f, a, b, n):
 
     return result        
 
+n=6
+a,b=0,2
 
-result = n_c(f, -1, 2, 6)
+result = n_c(f, 0, 2, 6)
 
 print(result)
+
+
+# Error:
+
+def k(n):
+
+    p = sp.Poly(y,y)
+
+    for i in range(n+1):
+        p*=sp.Poly(y-i,y)
+
+    result = p.integrate()(n)-p.integrate()(0)
+
+    result /= m.factorial(n+2)
+
+    return result
+
+"""
+kn = k(n)
+h = (b-a)/n
+
+#g=sp.Lambda(x, sp.diff(f(x),x,n+2))
+#print(g(x))
+
+cota_n2=80640 # Introducir a mano
+
+print("k"+str(n)+"="+str(kn))
+print("Cota error: "+str(abs(kn*h**(n+3)*cota_n2)))
+"""

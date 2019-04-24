@@ -7,7 +7,7 @@ sp.init_printing(use_unicode=True)
 
 def f(x):
     #return x*m.cos(x)-x**2*m.sin(x)
-    return m.cos(x)
+    return m.exp(3*x)*m.sin(3*x)/(x**4+1)
 
 
 def trapecio_compuesta(f, a, b, n):
@@ -24,6 +24,17 @@ def trapecio_compuesta(f, a, b, n):
     return result        
 
 
-result = trapecio_compuesta(f, -1, 1, 500)
+a, b = 0,2
+n = 1155
+
+result = trapecio_compuesta(f, a, b, n)
 
 print(result)
+
+# Error
+
+h = (b-a)/n
+
+cota_2 = 200
+
+print("Cota error: "+str(abs((b-a)*h**2/12*cota_2)))
