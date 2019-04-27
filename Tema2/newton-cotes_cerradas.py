@@ -4,7 +4,8 @@ x, y = sp.symbols('x y')
 sp.init_printing(use_unicode=True)
 
 #f=sp.Lambda(x, x*sp.cos(x)-x**2*sp.sin(x))
-f=sp.Lambda(x, x**4*sp.exp(-2*x**2))
+#f=sp.Lambda(x, x**4*sp.exp(-2*x**2))
+f=sp.Lambda(x, 1/(1+x**2))
 
 """
 def f(x):
@@ -43,10 +44,10 @@ def n_c(f, a, b, n):
 
     return result        
 
-n=6
-a,b=0,2
+n=50
+a,b=-4, 4
 
-result = n_c(f, 0, 2, 6)
+result = n_c(f, a, b, n)
 
 print(result)
 
