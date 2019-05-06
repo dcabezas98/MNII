@@ -1,10 +1,11 @@
-from sympy import *
+import sympy as sp, math as m
 
-x = symbols('x')
-init_printing(use_unicode=True)
+x, y = sp.symbols('x y')
+sp.init_printing(use_unicode=True)
 
-f=Lambda(x, exp(x))
-g=Lambda(x, diff(f(x),x))
+f=sp.Lambda(x, sp.exp(x))
+r=sp.Lambda(y, sp.log(sp.cos(sp.exp(y)+y**2)))
+g=sp.Lambda(x, sp.diff(r(x),x))
 
 # Central
 #f'(c)= (f(c+h)-f(c-h))/2h
@@ -16,7 +17,7 @@ c=0
 
 for i in range(5):
     print("h=",h)
-    fdnc=fdn(c, h, f)
-    print("f'(0)=", fdnc)
-    print("Error FDN:", abs(fdnc-g(c)))
+    fdnc=fdn(c, h, r)
+    print("f'(0)=", sp.N(fdnc))
+    print("Error FDN:", abs(sp.N(fdnc-g(c))))
     h/=10

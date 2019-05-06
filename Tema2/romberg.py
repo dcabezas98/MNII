@@ -4,7 +4,7 @@ x = sp.symbols('x')
 sp.init_printing(use_unicode=True)
 
 #f=sp.Lambda(x, x*sp.cos(x)-x**2*sp.sin(x))
-f=sp.Lambda(x, sp.exp(x)*sp.cos(x))
+#f=sp.Lambda(x, sp.exp(x)*sp.cos(x))
 #f=sp.Lambda(x, sp.sqrt(x))
 
 
@@ -40,7 +40,7 @@ def romberg(f, a, b, n):
         hk=(b-a)/2**k
         aux = 0
         for i in range(1,2**(k-1)+1):
-            aux+=f(a+(2*i-1)*hk)
+            aux+=sp.N(f(a+(2*i-1)*hk))
         R[k][0]=R[k-1][0]/2+hk*aux
     
     for j in range(1,n+1):
@@ -50,9 +50,10 @@ def romberg(f, a, b, n):
     #return R[n][n], R[n][0]
     return R
 
-
+"""
 a, b = 0, m.pi
 n = 12
+"""
 
 """
 result = romberg(f, a, b, n)
@@ -70,8 +71,36 @@ for k in range(n+1):
 """
 
 # Estimación Ek=4/3(Rk,0-Rk+1,0)
-
+"""
 R = romberg(f, a, b, n)
 
 for k in range(n):
     print("R[{0}][0]={1}, error={2}, estimacion={3}".format(k, sp.N(R[k][0]), sp.N(abs(R[k][0]-R[n][n])),  sp.N(4/3*abs(R[k][0]-R[k+1][0]))))
+"""
+
+# 2 Examen
+
+f=sp.Lambda(x, (sp.cos(sp.pi*x)+1)**(10/3))
+a, b = 0, 1
+solution = 3.000492123714049
+
+n = 10
+R = romberg(f, a, b, n)
+
+print('Romberg')
+
+for j in range(1, n+1):
+    print("R[{0}][{0}]={1}".format(j, R[j][j]))
+    print("\tError:" + str(abs(R[j][j]-solution)))
+
+for j in range(1, n):
+    print(abs(R[j][j]-solution)/abs(R[j+1][j+1]-solution))
+    
+print('\nTrapecio Compuesta')
+
+for j in range(1, n+1):
+    print("R[{0}][0]={1}".format(j, R[j][0]))
+    print("\tError:" + str(abs(R[j][0]-solution)))
+
+for j in range(1, n):
+    print(abs(R[j][0]-solution)/abs(R[j+1][0]-solution))
